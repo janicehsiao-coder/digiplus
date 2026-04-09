@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiPlus Interactive Corp. — 集團總覽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple: #3B1FBF;
+    --purple-light: #EEEDFE;
+    --purple-mid: #534AB7;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --pink: #D4537E;
+    --pink-light: #FBEAF0;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --gray-100: #F5F5F3;
+    --gray-200: #E8E8E5;
+    --gray-500: #888780;
+    --gray-800: #2C2C2A;
+    --text: #1A1A18;
+    --text-muted: #6B6B68;
+    --border: rgba(0,0,0,0.1);
+    --bg: #FAFAF8;
+    --card: #FFFFFF;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1A0A6B 0%, #3B1FBF 50%, #1D5FA5 100%);
+    padding: 3rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(29,159,117,0.12);
+  }
+  .hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white; font-size: 12px; font-weight: 500;
+    padding: 4px 12px; border-radius: 20px; margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 700; color: white;
+    line-height: 1.25; margin-bottom: 0.5rem;
+  }
+  .hero-sub { color: rgba(255,255,255,0.7); font-size: 15px; margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-size: 28px; font-weight: 700; color: white; }
+  .hero-stat .lbl { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+  /* MAIN */
+  .main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* TABS */
+  .tab-nav {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px;
+  }
+  .tab-btn {
+    flex: 1; min-width: 80px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 13px; font-weight: 500;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    border: none; cursor: pointer;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: var(--gray-100); color: var(--text); }
+  .tab-btn.active { background: var(--purple); color: white; }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* SECTION LABEL */
+  .sec-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 1rem;
+  }
+
+  /* STAT GRID */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 2rem; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px 16px;
+  }
+  .stat-card .lbl { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+  .stat-card .val { font-size: 22px; font-weight: 700; color: var(--text); }
+  .stat-card .sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+  /* TIMELINE */
+  .timeline { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem; }
+  .tl-item { padding: 16px 14px; border-right: 1px solid var(--border); text-align: center; }
+  .tl-item:last-child { border-right: none; }
+  .tl-year { font-size: 13px; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+  .tl-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* KPI ROW */
+  .kpi-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 2rem; }
+  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; }
+  .kpi-card .lbl { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .kpi-card .val { font-size: 20px; font-weight: 700; color: var(--text); }
+  .kpi-card .sub { font-size: 11px; color: var(--teal); margin-top: 3px; }
+  .kpi-card .sub.neg { color: var(--coral); }
+
+  /* BRAND GRID */
+  .brand-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .brand-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .brand-card:hover { border-color: var(--purple); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(59,31,191,0.1); }
+  .brand-card.active { border-color: var(--purple); background: var(--purple-light); }
+  .brand-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+  .brand-name { font-size: 14px; font-weight: 700; color: var(--text); display: flex; align-items: center; margin-bottom: 4px; }
+  .brand-type { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+  .brand-tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+
+  /* DETAIL PANEL */
+  .detail-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px; margin-bottom: 2rem;
+    border-left: 4px solid var(--purple);
+  }
+  .detail-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--purple); }
+  .detail-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .detail-item { background: var(--gray-100); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .detail-item .di-lbl { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .detail-item .di-val { font-size: 13px; color: var(--text); }
+
+  /* BAR CHART */
+  .bar-section { margin-bottom: 2rem; }
+  .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .bar-lbl { font-size: 12px; color: var(--text-muted); min-width: 60px; }
+  .bar-track { flex: 1; background: var(--gray-100); border-radius: 6px; height: 22px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 11px; font-weight: 700; transition: width 0.6s ease; }
+
+  /* PAGCOR TABLE */
+  .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--border); background: var(--gray-100); }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-100); }
+  .tag-down { background: var(--teal-light); color: #085041; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
+
+  /* STRATEGY CARDS */
+  .strategy-grid { display: grid; gap: 14px; }
+  .strategy-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 22px;
+    display: flex; gap: 18px; align-items: flex-start;
+  }
+  .strat-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+  }
+  .strat-body h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .strat-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* INFO BOX */
+  .info-box { background: var(--purple-light); border: 1px solid rgba(59,31,191,0.2); border-radius: var(--radius-sm); padding: 14px 16px; font-size: 13px; color: #3C3489; margin-top: 1rem; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--border); }
+  footer a { color: var(--purple); text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .stat-grid { grid-template-columns: repeat(2,1fr); }
+    .brand-grid { grid-template-columns: repeat(2,1fr); }
+    .timeline { grid-template-columns: repeat(2,1fr); }
+    .tl-item { border-bottom: 1px solid var(--border); }
+    .kpi-row { grid-template-columns: 1fr; }
+    .detail-2col { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.25rem; }
+    .tab-btn { font-size: 12px; padding: 7px 10px; }
+  }
+  @media (max-width: 420px) {
+    .brand-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📊 Investor Overview · November 2025</div>
+    <h1>DigiPlus Interactive Corp.</h1>
+    <p class="hero-sub">菲律賓最大數位娛樂集團・上市代碼 PLUS:PM・20 年休閒娛樂產業經驗</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">~40%</div><div class="lbl">線上博彩市佔率</div></div>
+      <div class="hero-stat"><div class="num">4,000萬+</div><div class="lbl">數位生態系註冊用戶</div></div>
+      <div class="hero-stat"><div class="num">130+</div><div class="lbl">全菲實體據點</div></div>
+      <div class="hero-stat"><div class="num">90%+</div><div class="lbl">數位營收佔比</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">集團總覽</button>
+    <button class="tab-btn" onclick="switchTab('brands',this)">旗下品牌</button>
+    <button class="tab-btn" onclick="switchTab('financials',this)">財務表現</button>
+    <button class="tab-btn" onclick="switchTab('pagcor',this)">法規稅率</button>
+    <button class="tab-btn" onclick="switchTab('strategy',this)">四大策略</button>
+    <button class="tab-btn" onclick="switchTab('competitors',this)">競品比較</button>
+  </nav>
+
+  <!-- ====== OVERVIEW ====== -->
+  <div id="overview" class="panel active">
+    <p class="sec-label">核心指標</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="lbl">總營收（2024）</div><div class="val">PHP 752億</div><div class="sub">vs 2023 成長 176%</div></div>
+      <div class="stat-card"><div class="lbl">EBITDA（2024）</div><div class="val">PHP 139億</div><div class="sub">利潤率 19%</div></div>
+      <div class="stat-card"><div class="lbl">淨利（2024）</div><div class="val">PHP 126億</div><div class="sub">淨利率 17%</div></div>
+      <div class="stat-card"><div class="lbl">現金部位（9M 2025）</div><div class="val">PHP 199億</div><div class="sub">財務健康穩健</div></div>
+    </div>
+
+    <p class="sec-label">轉型歷程</p>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-desc">BingoPlus 上線<br>成功啟動實體轉數位</div></div>
+      <div class="tl-item"><div class="tl-year">2023</div><div class="tl-desc">ArenaPlus、Specialty Games 推出<br>產品線大幅擴張</div></div>
+      <div class="tl-item"><div class="tl-year">2024</div><div class="tl-desc">Pinoy Drop Ball 上線<br>首屆 Tongits Champions Cup</div></div>
+      <div class="tl-item"><div class="tl-year">2025</div><div class="tl-desc">數位佔總營收 90%+<br>市佔穩定維持 41%</div></div>
+    </div>
+
+    <p class="sec-label">2025 前三季財務快覽（百萬披索）</p>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="lbl">Q1 2025 總營收</div><div class="val">23,062</div><div class="sub">EBITDA 率 20%</div></div>
+      <div class="kpi-card"><div class="lbl">Q2 2025 總營收</div><div class="val">24,713</div><div class="sub">EBITDA 率 18%</div></div>
+      <div class="kpi-card"><div class="lbl">Q3 2025 總營收</div><div class="val">19,052</div><div class="sub neg">受電子錢包解綁影響</div></div>
+    </div>
+
+    <div class="info-box">
+      ⚡ Q3 2025 行銷費用佔比達 27%（Q3 2024 僅 16%），顯示集團積極投入再獲客策略，以應對電子錢包解綁造成的用戶流失衝擊。高端玩家族群正帶動復甦。
+    </div>
+  </div>
+
+  <!-- ====== BRANDS ====== -->
+  <div id="brands" class="panel">
+    <p class="sec-label">點選品牌查看詳情</p>
+    <div class="brand-grid">
+      <div class="brand-card active" id="bc-bingo" onclick="selectBrand('bingo')">
+        <div class="brand-name"><span class="brand-dot" style="background:#3B1FBF"></span>BingoPlus</div>
+        <div class="brand-type">數位賓果・特殊遊戲</div>
+        <span class="brand-tag" style="background:#EEEDFE;color:#3C3489;">市場領導者</span>
+      </div>
+      <div class="brand-card" id="bc-arena" onclick="selectBrand('arena')">
+        <div class="brand-name"><span class="brand-dot" style="background:#D85A30"></span>ArenaPlus</div>
+        <div class="brand-type">運動競技・投注平台</div>
+        <span class="brand-tag" style="background:#FAECE7;color:#993C1D;">2023 推出</span>
+      </div>
+      <div class="brand-card" id="bc-game" onclick="selectBrand('game')">
+        <div class="brand-name"><span class="brand-dot" style="background:#1D9E75"></span>GameZone</div>
+        <div class="brand-type">牌類遊戲・PVP 競技</div>
+        <span class="brand-tag" style="background:#E1F5EE;color:#085041;">對戰模式</span>
+      </div>
+      <div class="brand-card" id="bc-super" onclick="selectBrand('super')">
+        <div class="brand-name"><span class="brand-dot" style="background:#BA7517"></span>Super Ace Jackpot</div>
+        <div class="brand-type">老虎機・桌遊</div>
+        <span class="brand-tag" style="background:#FAEEDA;color:#854F0B;">獨家品牌</span>
+      </div>
+      <div class="brand-card" id="bc-perya" onclick="selectBrand('perya')">
+        <div class="brand-name"><span class="brand-dot" style="background:#D4537E"></span>Specialty Games</div>
+        <div class="brand-type">嘉年華・本地文化遊戲</div>
+        <span class="brand-tag" style="background:#FBEAF0;color:#72243E;">在地化特色</span>
+      </div>
+      <div class="brand-card" id="bc-ecasino" onclick="selectBrand('ecasino')">
+        <div class="brand-name"><span class="brand-dot" style="background:#378ADD"></span>eCasino Games</div>
+        <div class="brand-type">電子娛樂城</div>
+        <span class="brand-tag" style="background:#E6F1FB;color:#185FA5;">1,000+ 款</span>
+      </div>
+    </div>
+
+    <div class="detail-box" id="brand-detail">
+      <h3 id="bd-name">BingoPlus</h3>
+      <div class="detail-2col">
+        <div class="detail-item"><div class="di-lbl">推出時間</div><div class="di-val" id="bd-launch">2022 年 1 月</div></div>
+        <div class="detail-item"><div class="di-lbl">主要分類</div><div class="di-val" id="bd-cat">數位賓果 / 特殊遊戲</div></div>
+      </div>
+      <div class="detail-item" style="margin-bottom:10px;"><div class="di-lbl">品牌亮點</div><div class="di-val" id="bd-desc">菲律賓首個互動直播數位賓果平台，結合 130+ 實體據點的線上線下混合模式。旗下 Super Ace Jackpot 獎池高達 2 億披索，單筆最高得獎 3,000 萬披索。</div></div>
+      <div class="detail-item"><div class="di-lbl">競爭優勢</div><div class="di-val" id="bd-adv">直播賓果首創者、強大品牌忠誠度、本地化遊戲內容，獲 SiG Asia 2025 最佳娛樂城獎。</div></div>
+    </div>
+  </div>
+
+  <!-- ====== FINANCIALS ====== -->
+  <div id="financials" class="panel">
+    <p class="sec-label">年度營收成長（百萬披索）</p>
+    <div class="bar-section">
+      <div class="bar-row"><span class="bar-lbl">2022</span><div class="bar-track"><div class="bar-fill" style="width:12%;background:#CECBF6;color:#3C3489;">8,906</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">2023</span><div class="bar-track"><div class="bar-fill" style="width:37%;background:#AFA9EC;color:#26215C;">27,251</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">2024</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#3B1FBF;color:white;">75,223</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">9M 2025</span><div class="bar-track"><div class="bar-fill" style="width:89%;background:#534AB7;color:white;">66,827</div></div></div>
+    </div>
+
+    <p class="sec-label">費用結構（2024 全年佔收入比）</p>
+    <div class="bar-section">
+      <div class="bar-row"><span class="bar-lbl">特許費稅</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:#F4C0D1;color:#72243E;">45%</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">行銷推廣</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:#FAC775;color:#633806;">18%</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">其他費用</span><div class="bar-track"><div class="bar-fill" style="width:18%;background:#D3D1C7;color:#444441;">18%</div></div></div>
+      <div class="bar-row"><span class="bar-lbl">EBITDA</span><div class="bar-track"><div class="bar-fill" style="width:19%;background:#5DCAA5;color:#04342C;">19%</div></div></div>
+    </div>
+
+    <p class="sec-label">行業市佔趨勢（DigiPlus Bingo+eGames，十億披索）</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>年度</th><th>全行業 GGR</th><th>行業 Bingo+eGames</th><th>DigiPlus</th><th>市佔率</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2022</td><td>214.3</td><td>28.2</td><td>8.1</td><td>29%</td></tr>
+          <tr><td>2023</td><td>285.3</td><td>58.2</td><td>26.4</td><td>45%</td></tr>
+          <tr><td>2024</td><td>372.3</td><td>154.5</td><td>74.1</td><td>47%</td></tr>
+          <tr><td>9M 2025</td><td>309.3</td><td>160.5</td><td>65.9</td><td>41%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box">2025 全年行業 GGR 預測達 4,500 億披索（+20% YoY），DigiPlus 仍為市場最大單一玩家。</div>
+  </div>
+
+  <!-- ====== PAGCOR ====== -->
+  <div id="pagcor" class="panel">
+    <p class="sec-label">PAGCOR 稅率調整歷程（對集團整體有利）</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>遊戲類別</th><th>2023 年</th><th>2024 年</th><th>2025 年後</th><th>趨勢</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>傳統賓果</td><td>20%</td><td>25%</td><td>25% → 20%（2026起）</td><td><span class="tag-down">↓ 持續降</span></td></tr>
+          <tr><td>電子賓果 eBingo</td><td>42.5%</td><td>35%</td><td>25%（2025 July起）</td><td><span class="tag-down">↓ 大幅降</span></td></tr>
+          <tr><td>電子娛樂城</td><td>41.25%</td><td>35%</td><td>30%</td><td><span class="tag-down">↓ 降幅穩定</span></td></tr>
+          <tr><td>運動直播投注</td><td>22.5%</td><td>20%</td><td>15%（2025 July起）</td><td><span class="tag-down">↓ 持續降</span></td></tr>
+          <tr><td>虛擬運動投注</td><td>41.25%</td><td>35%</td><td>30%</td><td><span class="tag-down">↓ 降幅穩定</span></td></tr>
+          <tr><td>特殊遊戲（直播）</td><td colspan="2" style="color:var(--text-muted);">—</td><td>15%（最低稅率）</td><td><span class="tag-down">✓ 最優惠</span></td></tr>
+          <tr><td>線上撲克</td><td colspan="2" style="color:var(--text-muted);">—</td><td>15%</td><td><span class="tag-down">✓ 最優惠</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box">
+      📌 法規重點：eBingo 稅率從 42.5% 大幅降至 25%，直接改善毛利結構。Specialty Games 直播類僅 15% 為全品類最低，為 DigiPlus 強推本地化特色遊戲提供有力利潤支撐。<br><br>
+      📌 廣告限制：PAGCOR 要求禁止戶外看板、公共交通工具廣告，並嚴禁暗示保證獲利之訴求，廣告素材須符合 Responsible Gaming 規範。
+    </div>
+  </div>
+
+  <!-- ====== STRATEGY ====== -->
+  <div id="strategy" class="panel">
+    <p class="sec-label">DigiPlus 四大核心成長策略</p>
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strat-num" style="background:#EEEDFE;color:#3B1FBF;">01</div>
+        <div class="strat-body">
+          <h4 style="color:#3B1FBF;">推出更多自研獨家遊戲</h4>
+          <p>持續執行在地化遊戲品牌策略，開發如 Pinoy Drop Ball 等文化共鳴強的獨家遊戲，形成差異化護城河，並透過提升玩家黏著度驅動長期營收成長。</p>
+        </div>
+      </div>
+      <div class="strategy-card">
+        <div class="strat-num" style="background:#FAECE7;color:#D85A30;">02</div>
+        <div class="strat-body">
+          <h4 style="color:#D85A30;">持續多元化產品組合</h4>
+          <p>擴大產品線覆蓋不同年齡層與興趣族群，從 Bingo、Sports、Card Games 到嘉年華特色遊戲，提升跨族群觸及率，強化留存並降低單一產品依賴風險。</p>
+        </div>
+      </div>
+      <div class="strategy-card">
+        <div class="strat-num" style="background:#E1F5EE;color:#1D9E75;">03</div>
+        <div class="strat-body">
+          <h4 style="color:#1D9E75;">善用數位智能提升體驗</h4>
+          <p>導入 AI 與大數據進行個人化遊戲推薦與負責任遊戲監控，推動 Mobile First 無縫操作體驗。以數據洞察優化行銷投放效率、提升留存率，並加速產品迭代週期。</p>
+        </div>
+      </div>
+      <div class="strategy-card">
+        <div class="strat-num" style="background:#FAEEDA;color:#BA7517;">04</div>
+        <div class="strat-body">
+          <h4 style="color:#BA7517;">伺機進軍海外市場</h4>
+          <p>鎖定具備明確 iGaming 法規框架的海外市場，降低合規風險。目標分散營收來源，複製菲律賓成功模式，強化全球品牌佈局並開創全新成長動能。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:1.5rem;">
+      🏆 截至 2025 年，DigiPlus 已獲 Fortune Southeast Asia 500、Statista 2025 Philippines Growth Champions Top 3、SiG Asia 最佳娛樂城及最佳 Sportsbook 等多項國際殊榮。
+    </div>
+  </div>
+  <!-- ====== COMPETITORS ====== -->
+  <div id="competitors" class="panel">
+    <p class="sec-label">2026 PH Growth Champions — 博弈娛樂相關品牌比較</p>
+
+    <!-- Context box -->
+    <div style="background:#EEEDFE;border:1px solid rgba(59,31,191,0.2);border-radius:12px;padding:16px 20px;margin-bottom:1rem;font-size:13px;color:#3C3489;">
+      <strong>排名說明：</strong>2026 Philippines' Growth Champions 由 Statista × Philippine Daily Inquirer 聯合發布，評選 2021–2024 年 CAGR 最高的 50 家菲律賓企業，最低門檻 5.37%。DigiPlus 以 <strong>199.29% CAGR</strong> 奪全榜第一，較 2025 年版晉升兩位。
+    </div>
+
+    <!-- Data limitation notice -->
+    <div style="background:#FFF8E6;border:1px solid #EFC97A;border-radius:10px;padding:14px 18px;margin-bottom:1.5rem;font-size:12px;color:#7A5200;display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:16px;flex-shrink:0;">⚠️</span>
+      <div>
+        <strong>資料說明：</strong> Statista 完整 50 名名單需付費訂閱方可查閱，目前公開報導僅揭露 Top 3。此外，CasinoPlus、OKBet、PlayTime、Bet88、megaFUNalo! 等競品<strong>均為非上市私人公司</strong>，需主動申請才能入榜，目前無任何公開資料顯示這些品牌出現於 2026 榜單中。下方表格以「—」標示，並以流量與市場地位補充說明。
+      </div>
+    </div>
+
+    <!-- Ranking highlight: confirmed top 3 -->
+    <p class="sec-label">2026 Growth Champions — 已確認公開排名（前三名）</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem;">
+      <div style="background:#3B1FBF;border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-bottom:4px;">2026 Growth Champions</div>
+        <div style="font-size:40px;font-weight:700;color:white;">#1</div>
+        <div style="font-size:13px;font-weight:700;color:white;">DigiPlus Interactive</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">CAGR 199.29% · 娛樂科技</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">2026 Growth Champions</div>
+        <div style="font-size:40px;font-weight:700;color:var(--text);">#2</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);">Basic Energy Corp.</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">CAGR 133.94% · 再生能源</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">2026 Growth Champions</div>
+        <div style="font-size:40px;font-weight:700;color:var(--text);">#3</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);">Mount Fuji Lending</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">金融借貸（日菲合資）</div>
+      </div>
+    </div>
+    <div style="background:var(--gray-100);border-radius:8px;padding:10px 14px;margin-bottom:1.5rem;font-size:12px;color:var(--text-muted);">
+      Top 4–10 由金融、電信、餐旅、餐飲、消費品等行業公司組成，無博弈娛樂業者。排名 11–50 未被公開揭露。
+    </div>
+
+    <!-- Competitor table -->
+    <p class="sec-label">菲律賓主要線上娛樂平台競品全覽 × 2026 Growth Champions 對照</p>
+    <div class="table-wrap" style="margin-bottom:1.5rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>品牌 / 母公司</th>
+            <th>2026 Growth Champions 排名</th>
+            <th>平台類型</th>
+            <th>主打遊戲</th>
+            <th>上線時間</th>
+            <th>市場定位</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#EEEDFE;">
+            <td><strong style="color:#3B1FBF;">BingoPlus / DigiPlus</strong><br><span style="font-size:11px;color:#534AB7;">PLUS:PM 上市公司</span></td>
+            <td><span style="background:#3B1FBF;color:white;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;">#1 🏆</span><br><span style="font-size:10px;color:#534AB7;">CAGR 199.29%</span></td>
+            <td>數位賓果、eCasino、體育投注</td>
+            <td>Bingo、Super Ace Jackpot、Tongits</td>
+            <td>2022.01</td>
+            <td><span style="background:#3B1FBF;color:white;font-size:10px;padding:2px 8px;border-radius:20px;">市場龍頭</span></td>
+          </tr>
+          <tr>
+            <td><strong>CasinoPlus</strong><br><span style="font-size:11px;color:var(--text-muted);">Stotsenberg Leisure Park（非上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">未入榜 / 未知</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">私人公司未申請或未達門檻</span>
+            </td>
+            <td>線上 eCasino、PIGO 模式</td>
+            <td>Slots、桌遊、Live Dealer</td>
+            <td>2022 年前</td>
+            <td><span style="background:#FAECE7;color:#993C1D;font-size:10px;padding:2px 8px;border-radius:20px;">IR 聯盟拓展</span></td>
+          </tr>
+          <tr>
+            <td><strong>PlayTime（Playntime）</strong><br><span style="font-size:11px;color:var(--text-muted);">Playmate Leisure Solutions（非上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">未入榜 / 未知</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">私人公司未申請或未達門檻</span>
+            </td>
+            <td>電子賓果、特殊遊戲</td>
+            <td>eBingo、Color Game</td>
+            <td>2021 年前</td>
+            <td><span style="background:#E1F5EE;color:#085041;font-size:10px;padding:2px 8px;border-radius:20px;">傳統賓果受眾</span></td>
+          </tr>
+          <tr>
+            <td><strong>OKBet</strong><br><span style="font-size:11px;color:var(--text-muted);">Gavin Ventures Inc.（非上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">未入榜 / 未知</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">私人公司未申請或未達門檻</span>
+            </td>
+            <td>體育投注、線上 Casino</td>
+            <td>Sports Betting、Slots、Live Casino</td>
+            <td>2021</td>
+            <td><span style="background:#FAEEDA;color:#854F0B;font-size:10px;padding:2px 8px;border-radius:20px;">Sports 導向</span></td>
+          </tr>
+          <tr>
+            <td><strong>megaFUNalo!</strong><br><span style="font-size:11px;color:var(--text-muted);">Bloomberry Resorts（BLOOM:PM 上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">不符資格</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">2025 年 6 月才上線，未滿評選期間</span>
+            </td>
+            <td>混合娛樂（博弈＋影音串流）</td>
+            <td>Poker、Blackjack + Viva 影片</td>
+            <td>2025.06</td>
+            <td><span style="background:#FBEAF0;color:#72243E;font-size:10px;padding:2px 8px;border-radius:20px;">高端 21+ 受眾</span></td>
+          </tr>
+          <tr>
+            <td><strong>Bet88</strong><br><span style="font-size:11px;color:var(--text-muted);">Trojans Well Entertainment（非上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">未入榜 / 未知</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">私人公司未申請或未達門檻</span>
+            </td>
+            <td>Sports Betting、eCasino</td>
+            <td>Sports、Live Games</td>
+            <td>2022 年前</td>
+            <td><span style="background:#E6F1FB;color:#185FA5;font-size:10px;padding:2px 8px;border-radius:20px;">體育賽事導向</span></td>
+          </tr>
+          <tr>
+            <td><strong>KingPH / LuckyPH / QueenPH</strong><br><span style="font-size:11px;color:var(--text-muted);">World Platinum Technologies（非上市）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">未入榜 / 未知</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">私人公司未申請或未達門檻</span>
+            </td>
+            <td>多品牌 eCasino 矩陣</td>
+            <td>Slots、桌遊、Live Dealer</td>
+            <td>2022 年前</td>
+            <td><span style="background:#E1F5EE;color:#085041;font-size:10px;padding:2px 8px;border-radius:20px;">多品牌擴張</span></td>
+          </tr>
+          <tr>
+            <td><strong>PAGCOR iGames</strong><br><span style="font-size:11px;color:var(--text-muted);">菲律賓政府監管機構（國有）</span></td>
+            <td>
+              <span style="background:#F5F5F3;color:#888;font-size:11px;padding:2px 8px;border-radius:20px;">不符資格</span><br>
+              <span style="font-size:10px;color:var(--text-muted);">國有機構不在評選範圍</span>
+            </td>
+            <td>官方線上博弈平台</td>
+            <td>Poker、Baccarat、Roulette</td>
+            <td>2025.02</td>
+            <td><span style="background:#EEEDFE;color:#3C3489;font-size:10px;padding:2px 8px;border-radius:20px;">國家公信力</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="background:var(--gray-100);border-radius:8px;padding:10px 14px;margin-bottom:1.5rem;font-size:12px;color:var(--text-muted);">
+      📌 Growth Champions 資格要求：必須為菲律賓獨立企業、主動申請並提交財務數據、由管理層簽署認證。私人非上市公司如未申請即不會出現在榜單上。Statista 完整 50 名榜單需付費訂閱，目前公開媒體僅揭露前 3 名。
+    </div>
+
+    <!-- Dimension comparison -->
+    <p class="sec-label">關鍵維度比較分析</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem;">
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#3B1FBF;">📊 財務規模（2024 年營收）</div>
+        <div style="font-size:12px;margin-bottom:8px;display:flex;justify-content:space-between;"><span>DigiPlus（BingoPlus 集團）</span><strong style="color:#3B1FBF;">PHP 752億</strong></div>
+        <div style="background:var(--gray-100);border-radius:4px;height:8px;margin-bottom:12px;overflow:hidden;"><div style="width:100%;height:100%;background:#3B1FBF;border-radius:4px;"></div></div>
+        <div style="font-size:12px;margin-bottom:8px;display:flex;justify-content:space-between;"><span>Bloomberry Resorts（含 Solaire）</span><strong style="color:#D85A30;">PHP ~400億</strong></div>
+        <div style="background:var(--gray-100);border-radius:4px;height:8px;margin-bottom:12px;overflow:hidden;"><div style="width:53%;height:100%;background:#D85A30;border-radius:4px;"></div></div>
+        <div style="font-size:11px;color:var(--text-muted);">* Bloomberry 含實體 IR 營收，megaFUNalo 線上平台 2025 年中才上線，尚無獨立財務揭露。CasinoPlus、OKBet 等為非上市公司，無公開財報。</div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#3B1FBF;">🎯 目標用戶族群比較</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+          <span style="font-weight:700;color:var(--text);">DigiPlus（BingoPlus）</span><br>20–55 歲、大眾市場、注重本地文化共鳴
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+          <span style="font-weight:700;color:var(--text);">megaFUNalo!</span><br>21+ 歲、中高端族群、混合娛樂（博弈+影音串流）
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">
+          <span style="font-weight:700;color:var(--text);">CasinoPlus</span><br>傳統實體 Casino 用戶、IR 聯名客群
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);">
+          <span style="font-weight:700;color:var(--text);">OKBet / Bet88</span><br>運動迷、Sports Betting 核心用戶
+        </div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#3B1FBF;">⚖️ 競爭優勢矩陣</div>
+        <table style="width:100%;font-size:11px;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:4px 6px;color:var(--text-muted);border-bottom:1px solid var(--border);">維度</th>
+              <th style="text-align:center;padding:4px 6px;color:#3B1FBF;border-bottom:1px solid var(--border);">DigiPlus</th>
+              <th style="text-align:center;padding:4px 6px;color:#D85A30;border-bottom:1px solid var(--border);">megaFUNalo</th>
+              <th style="text-align:center;padding:4px 6px;color:var(--text-muted);border-bottom:1px solid var(--border);">CasinoPlus</th>
+              <th style="text-align:center;padding:4px 6px;color:var(--text-muted);border-bottom:1px solid var(--border);">OKBet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:5px 6px;border-bottom:1px solid var(--border);">品牌知名度</td><td style="text-align:center;color:#3B1FBF;font-weight:700;">★★★★★</td><td style="text-align:center;">★★★</td><td style="text-align:center;">★★★</td><td style="text-align:center;">★★★</td></tr>
+            <tr><td style="padding:5px 6px;border-bottom:1px solid var(--border);">本地化內容</td><td style="text-align:center;color:#3B1FBF;font-weight:700;">★★★★★</td><td style="text-align:center;">★★★★</td><td style="text-align:center;">★★★</td><td style="text-align:center;">★★</td></tr>
+            <tr><td style="padding:5px 6px;border-bottom:1px solid var(--border);">財務實力</td><td style="text-align:center;color:#3B1FBF;font-weight:700;">★★★★★</td><td style="text-align:center;color:#D85A30;font-weight:700;">★★★★★</td><td style="text-align:center;">★★★</td><td style="text-align:center;">★★</td></tr>
+            <tr><td style="padding:5px 6px;border-bottom:1px solid var(--border);">體育投注</td><td style="text-align:center;">★★★★</td><td style="text-align:center;">★★</td><td style="text-align:center;">★★</td><td style="text-align:center;color:#D85A30;font-weight:700;">★★★★★</td></tr>
+            <tr><td style="padding:5px 6px;">實體據點</td><td style="text-align:center;color:#3B1FBF;font-weight:700;">★★★★★</td><td style="text-align:center;color:#D85A30;font-weight:700;">★★★★★</td><td style="text-align:center;">★★★★</td><td style="text-align:center;">★</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:#3B1FBF;">🚨 市場風險雷達</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.8;">
+          <div style="margin-bottom:8px;"><span style="background:#FAECE7;color:#993C1D;font-size:10px;padding:2px 7px;border-radius:20px;margin-right:6px;">立法風險</span>參議院 SB 142 提案擬全面禁止菲律賓用戶 iGaming，監管不確定性為全行業最大隱患。</div>
+          <div style="margin-bottom:8px;"><span style="background:#FAEEDA;color:#854F0B;font-size:10px;padding:2px 7px;border-radius:20px;margin-right:6px;">新玩家入場</span>Bloomberry、Alliance Global、Hann Holdings 等大型財團陸續進入線上市場，競爭加劇。</div>
+          <div><span style="background:#E1F5EE;color:#085041;font-size:10px;padding:2px 7px;border-radius:20px;margin-right:6px;">支付生態</span>2025 Q3 電子錢包解綁事件影響交易量，DigiPlus Q3 營收明顯受壓，各平台均面臨支付基礎設施挑戰。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PlaySafe Alliance -->
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid #1D9E75;border-radius:0 12px 12px 0;padding:16px 20px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#1D9E75;">🤝 PlaySafe Alliance of the Philippines — 業界自律聯盟</div>
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.7;">
+        2025 年 8 月由主要 PAGCOR 持牌業者共同成立，以應對政府禁令提案的監管壓力。創始成員包含：<strong style="color:var(--text);">DigiPlus（BingoPlus/ArenaPlus/GameZone）、CasinoPlus、PlayTime、OKBet、Bet88、KingPH/LuckyPH/QueenPH、Jade Sportsbet、123Go、Patokbet</strong>。
+        聯盟共同推廣負責任遊戲規範，強調 KYC 合規與玩家保護，試圖向立法機關展示自律能力以對抗全面禁令。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  資料來源：DigiPlus Interactive Corp. Investor Presentation, November 2025 ·
+  <a href="https://www.digiplus.com.ph" target="_blank">digiplus.com.ph</a> ·
+  本報告由 LAKI 行銷企劃團隊整理，僅供內部參考使用
+</footer>
+
+<script>
+const brandData = {
+  bingo: {
+    name: 'BingoPlus',
+    launch: '2022 年 1 月',
+    cat: '數位賓果 / 特殊遊戲',
+    desc: '菲律賓首個互動直播數位賓果平台，建立線上 + 實體 130+ 據點混合模式。旗下 Super Ace Jackpot 獎池高達 2 億披索，單筆最高得獎 3,000 萬披索。平台提供超過 1,000 款遊戲。',
+    adv: '直播賓果首創者、強大品牌忠誠度、豐富本地化遊戲內容。獲 SiG Asia 2025「Best Casino Operator」及「Reliable Gaming Brand」殊榮。',
+    color: '#3B1FBF'
+  },
+  arena: {
+    name: 'ArenaPlus',
+    launch: '2023 年 2 月',
+    cat: '運動投注 / 直播競技',
+    desc: '主打運動愛好者族群，提供本地與國際賽事直播串流。為 FIBA 世界盃、菲律賓籃球聯賽（PBA）、菲律賓女子排球聯賽（PVL）官方投注合作夥伴。',
+    adv: '官方賽事授權、社群驅動內容策略、持續擴大賽事覆蓋範圍。連續獲 SiG Asia 2024 及 2025「Best Sportsbook Operator」大獎。',
+    color: '#D85A30'
+  },
+  game: {
+    name: 'GameZone',
+    launch: '2023 年',
+    cat: '牌類遊戲 / PVP 競技平台',
+    desc: '以 PVP（玩家對玩家）模式為核心，支援 Tongits 等菲律賓傳統牌類，具備即時直播功能。2024 年成功舉辦菲律賓首屆線下大型 Tongits Champions Cup 錦標賽。',
+    adv: 'PVP 機制大幅提升用戶黏著度、深度結合本地傳統牌戲文化情感，同時兼顧休閒與競技玩家需求。',
+    color: '#1D9E75'
+  },
+  super: {
+    name: 'Super Ace Jackpot',
+    launch: 'BingoPlus 旗下獨家',
+    cat: '老虎機 / 桌遊',
+    desc: 'BingoPlus 平台獨家老虎機體驗，號稱菲律賓最受歡迎的 Slot 遊戲。累積彩池高達 2 億披索，單次最高得獎金額達 3,000 萬披索，具強力口碑傳播效應。',
+    adv: '超高獎池吸引力強、獨家綁定 BingoPlus 生態系形成差異化，有效帶動平台日活用戶留存與跨遊戲轉換率。',
+    color: '#BA7517'
+  },
+  perya: {
+    name: 'Specialty Games',
+    launch: '2023 年起・持續推出',
+    cat: '嘉年華 / 文化特色遊戲',
+    desc: '以菲律賓傳統嘉年華（Perya）為靈感，將懷舊遊玩體驗數位化再造。2024 年 9 月推出的 Pinoy Drop Ball 迅速成為最受歡迎品項，以簡單刺激機制俘獲大量玩家。',
+    adv: '強烈文化在地化差異優勢、情感連結深厚。PAGCOR 直播類特殊遊戲稅率僅 15%，為全品類最低，成本結構最為優越。',
+    color: '#D4537E'
+  },
+  ecasino: {
+    name: 'eCasino Games',
+    launch: '持續擴充中',
+    cat: '電子娛樂城 / 電子博弈',
+    desc: '整合 Jili、Evolution、EEZE 等國際頂尖遊戲供應商，提供超過 1,000 款電子遊戲內容，跨 BingoPlus、ArenaPlus、GameZone 等所有 DigiPlus 平台均可遊玩。',
+    adv: '豐富遊戲庫降低用戶流失風險、國際知名品牌背書增強信任感、多平台整合佈局快速承接不同用戶偏好與需求。',
+    color: '#378ADD'
+  }
+};
+
+function selectBrand(key) {
+  document.querySelectorAll('.brand-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('bc-' + key)?.classList.add('active');
+  const d = brandData[key];
+  if (!d) return;
+  document.getElementById('bd-name').textContent = d.name;
+  document.getElementById('bd-name').style.color = d.color;
+  document.getElementById('bd-launch').textContent = d.launch;
+  document.getElementById('bd-cat').textContent = d.cat;
+  document.getElementById('bd-desc').textContent = d.desc;
+  document.getElementById('bd-adv').textContent = d.adv;
+  document.getElementById('brand-detail').style.borderLeftColor = d.color;
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.tab-nav').offsetTop - 20, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
